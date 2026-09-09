@@ -21,5 +21,5 @@ output "wp_admin_user" {
 output "wp_admin_password" {
   value       = random_password.wp_admin.result
   description = "Temporary WordPress administrator password. Change it after first login."
-  sensitive   = false
+  sensitive   = true
 }

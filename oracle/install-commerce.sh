@@ -6,8 +6,8 @@ WEBROOT=/var/www/radar-commerce
 DB_NAME=radar_commerce
 DB_USER=radar_wp
 DB_PASS="$(openssl rand -hex 24)"
-WP_ADMIN="radar_admin"
-WP_PASS="$(openssl rand -hex 24)"
+WP_ADMIN="${RADAR_WP_ADMIN_USER:-radar_admin}"
+WP_PASS="${RADAR_WP_ADMIN_PASS:-$(openssl rand -hex 24)}"
 
 log(){ printf '[radar-commerce] %s\n' "$*"; }
 
@@ -33,7 +33,7 @@ if ! swapon --show | grep -q '/swapfile'; then
   echo '/swapfile none swap sw 0 0' >> /etc/fstab
 fi
 
-log 'Tuning MariaDB for 1 GB RAM'
+log 'Tuning MariaDB for low memory'
 cat >/etc/mysql/mariadb.conf.d/60-radar.cnf <<'EOF'
 [mysqld]
 innodb_buffer_pool_size=128M

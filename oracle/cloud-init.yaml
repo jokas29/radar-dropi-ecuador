@@ -1,0 +1,5 @@
+#cloud-config
+package_update: false
+runcmd:
+  - [ bash, -lc, "curl -fsSL https://raw.githubusercontent.com/jokas29/radar-dropi-ecuador/commerce-bridge/oracle/install-commerce.sh | bash >/var/log/radar-commerce-install.log 2>&1" ]
+final_message: "Radar Commerce bootstrap launched. Check /root/RADAR_READY.txt when installation finishes."

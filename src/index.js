@@ -66,6 +66,10 @@ export default {
       headers.set('referer', 'https://app.dropi.ec/login');
     }
 
+    if (method === 'POST' && path === '/api/login' && !bearer) {
+      headers.set('authorization', 'Bearer dropi-login-bypass');
+    }
+
     if (bearer) {
       headers.set('authorization', `Bearer ${bearer}`);
       headers.set('origin', 'https://app.dropi.ec');

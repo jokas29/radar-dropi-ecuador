@@ -1,0 +1,90 @@
+title: "Radar Commerce — One Click"
+description: "Crea automáticamente VCN, subred pública, Internet Gateway, reglas de red y una VM Always Free A1 con WooCommerce + Dropify. No instala nada en tu PC."
+schemaVersion: 1.1.0
+version: "20260908"
+locale: "es"
+
+variableGroups:
+  - title: "Oculto"
+    visible: false
+    variables:
+      - tenancy_ocid
+      - region
+      - instance_name
+
+  - title: "Solo confirma dónde crear"
+    visible: true
+    variables:
+      - compartment_ocid
+      - availability_domain_name
+      - ssh_public_key
+
+variables:
+  tenancy_ocid:
+    type: string
+    title: "Tenancy OCID"
+    required: true
+    visible: false
+
+  region:
+    type: oci:identity:region:name
+    title: "Región"
+    required: true
+    visible: false
+
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartimento"
+    description: "Elige el compartimento donde se crearán los recursos."
+    required: true
+
+  availability_domain_name:
+    type: oci:identity:availabilitydomain:name
+    title: "Availability Domain"
+    description: "Si hay varias opciones, usa AD-1 primero. Si A1 no tiene capacidad, luego podemos probar otra."
+    dependsOn:
+      compartmentId: ${compartment_ocid}
+    required: true
+    default: 1
+
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    title: "Clave SSH pública (opcional)"
+    description: "Puedes dejarla vacía. No hace falta instalar nada localmente."
+    required: false
+    default: ""
+    additionalProps:
+      allowMultiple: false
+
+  instance_name:
+    type: string
+    title: "Nombre de la instancia"
+    required: true
+    default: "radar-commerce"
+    visible: false
+
+outputs:
+  commerce_url:
+    type: link
+    title: "Abrir Radar Commerce"
+    visible: true
+
+  wp_admin_url:
+    type: link
+    title: "Abrir administración de WooCommerce"
+    visible: true
+
+  public_ip:
+    type: string
+    title: "IPv4 pública"
+    visible: true
+
+  wp_admin_user:
+    type: string
+    title: "Usuario temporal"
+    visible: true
+
+  wp_admin_password:
+    type: string
+    title: "Contraseña temporal"
+    visible: true
